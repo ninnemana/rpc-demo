@@ -4,8 +4,12 @@
 package vinyltappb
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -122,4 +126,148 @@ var fileDescriptor_b0181488c785c5a2 = []byte{
 	0x91, 0x65, 0xf7, 0xe8, 0xea, 0x0a, 0x17, 0xef, 0xbe, 0x99, 0xed, 0xea, 0xf0, 0x79, 0x7a, 0xad,
 	0x87, 0xa6, 0xd6, 0xf0, 0x82, 0xdb, 0xaf, 0xae, 0x2c, 0x93, 0xb1, 0xbe, 0xdb, 0xdf, 0x00, 0x00,
 	0x00, 0xff, 0xff, 0x62, 0x6a, 0xc6, 0x3b, 0x50, 0x01, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// TapClient is the client API for Tap service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type TapClient interface {
+	GetAlbum(ctx context.Context, in *Album, opts ...grpc.CallOption) (Tap_GetAlbumClient, error)
+	Set(ctx context.Context, in *Album, opts ...grpc.CallOption) (*Album, error)
+}
+
+type tapClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewTapClient(cc *grpc.ClientConn) TapClient {
+	return &tapClient{cc}
+}
+
+func (c *tapClient) GetAlbum(ctx context.Context, in *Album, opts ...grpc.CallOption) (Tap_GetAlbumClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Tap_serviceDesc.Streams[0], "/vinyltap.Tap/GetAlbum", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &tapGetAlbumClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Tap_GetAlbumClient interface {
+	Recv() (*Album, error)
+	grpc.ClientStream
+}
+
+type tapGetAlbumClient struct {
+	grpc.ClientStream
+}
+
+func (x *tapGetAlbumClient) Recv() (*Album, error) {
+	m := new(Album)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *tapClient) Set(ctx context.Context, in *Album, opts ...grpc.CallOption) (*Album, error) {
+	out := new(Album)
+	err := c.cc.Invoke(ctx, "/vinyltap.Tap/Set", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TapServer is the server API for Tap service.
+type TapServer interface {
+	GetAlbum(*Album, Tap_GetAlbumServer) error
+	Set(context.Context, *Album) (*Album, error)
+}
+
+// UnimplementedTapServer can be embedded to have forward compatible implementations.
+type UnimplementedTapServer struct {
+}
+
+func (*UnimplementedTapServer) GetAlbum(req *Album, srv Tap_GetAlbumServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAlbum not implemented")
+}
+func (*UnimplementedTapServer) Set(ctx context.Context, req *Album) (*Album, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Set not implemented")
+}
+
+func RegisterTapServer(s *grpc.Server, srv TapServer) {
+	s.RegisterService(&_Tap_serviceDesc, srv)
+}
+
+func _Tap_GetAlbum_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Album)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(TapServer).GetAlbum(m, &tapGetAlbumServer{stream})
+}
+
+type Tap_GetAlbumServer interface {
+	Send(*Album) error
+	grpc.ServerStream
+}
+
+type tapGetAlbumServer struct {
+	grpc.ServerStream
+}
+
+func (x *tapGetAlbumServer) Send(m *Album) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Tap_Set_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Album)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TapServer).Set(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/vinyltap.Tap/Set",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TapServer).Set(ctx, req.(*Album))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Tap_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "vinyltap.Tap",
+	HandlerType: (*TapServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Set",
+			Handler:    _Tap_Set_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetAlbum",
+			Handler:       _Tap_GetAlbum_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "vinyltap.proto",
 }
