@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package vinyltap;
+
+option go_package = "vinyltappb";
+option java_multiple_files = true;
+option java_outer_classname = "VinyltapProto";
+option java_package = "com.vinyltap";
+
+message Album {
+  int32 id = 1;
+  string artist = 2;
+  string title = 3;
+  int64 release_date = 4;
+  repeated string songs = 5;
+  bool tombstoned = 6;
+}
+
+service Tap {
+  rpc GetAlbum(Album) returns (stream Album);
+  rpc Set(Album) returns (Album);
+}
