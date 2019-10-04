@@ -1,9 +1,9 @@
 protoc:
   version: 3.7.1
   includes:
-  - /tmp/go/src/github.com/grpc-ecosystem/grpc-gateway
-  - /tmp/go/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
-  - /tmp/go/src/github.com/golang/protobuf
+  - ../../grpc-ecosystem/grpc-gateway
+  - ../../grpc-ecosystem/grpc-gateway/third_party/googleapis
+  - ../../golang/protobuf
 lint:
   group: google
 generate:
