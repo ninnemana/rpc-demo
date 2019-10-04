@@ -41,6 +41,11 @@ generate: $(PROTOTOOL)
 	@prototool generate
 	@rm -r .tmp
 
+# do not include `generate` in the docker command, as the Dockerfile 
+# runs code generation on build.
+docker:
+	@docker build --rm -t rpc-demo .
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
