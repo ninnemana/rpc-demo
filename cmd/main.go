@@ -1,33 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"context"
+	"log"
 
-	"github.com/ninnemana/rpc-demo/pkg/vinyltappb"
+	"github.com/ninnemana/drudge"
+	"github.com/ninnemana/rpc-demo/pkg/service"
+)
+
+const (
+	tcpAddr = "localhost:8080"
+	rpcAddr = "localhost:8081"
 )
 
 func main() {
-	a := vinyltappb.Album{
-		Id:          1,
-		Artist:      "Nirvana",
-		Title:       "Nevermind",
-		ReleaseDate: time.Date(1991, time.September, 24, 0, 0, 0, 0, time.UTC).Unix(),
-		Songs: []string{
-			"Smells Like Teen Spirit",
-			"In Bloom",
-			"Come as You Are",
-			"Breed",
-			"Lithium",
-			"Polly",
-			"Territorial Pissings",
-			"Drain You",
-			"Lounge Act",
-			"Stay Away",
-			"On a Plain",
-			"Something in the Way",
-			"Endless, Nameless",
+	if err := drudge.Run(context.Background(), drudge.Options{
+		Metrics: &drudge.Metrics{
+			Prefix:      "tap",
+			PullAddress: ":9090",
 		},
+		BasePath: "/",
+		Addr:     tcpAddr,
+		RPC: drudge.Endpoint{
+			Network: "tcp",
+			Addr:    rpcAddr,
+		},
+		OnRegister: service.Register,
+	}); err != nil {
+		log.Fatalf("Fell out of serving application: %+v", err)
 	}
-	fmt.Printf("%+v\n", a)
 }
