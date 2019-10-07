@@ -1,4 +1,4 @@
-FROM golang:1.12 as builder
+FROM golang:1.12 AS builder
 
 ENV GO111MODULE=off
 RUN go get -u google.golang.org/grpc
@@ -16,9 +16,11 @@ RUN cp /protoc/bin/protoc /usr/local/bin/protoc
 WORKDIR /go/src/github.com/ninnemana/rpc-demo
 ADD . .
 RUN make generate
-RUN GO111MODULE=on go build -o /api ./cmd
+RUN cd cmd/ && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o /api
 
 FROM alpine
-
-COPY --from=builder /api /api
-ENTRYPOINT ["/api"]
+RUN apk --no-cache add ca-certificates
+WORKDIR /app
+COPY --from=builder /api /app/
+RUN chmod +x ./api
+ENTRYPOINT ./api
