@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	tcpAddr = "localhost:8080"
-	rpcAddr = "localhost:8081"
+	tcpAddr = ":8080"
+	rpcAddr = ":8081"
 )
 
-func main() {
-	if err := drudge.Run(context.Background(), drudge.Options{
+var (
+	options = drudge.Options{
 		Metrics: &drudge.Metrics{
 			Prefix:      "tap",
 			PullAddress: ":9090",
@@ -26,7 +26,11 @@ func main() {
 			Addr:    rpcAddr,
 		},
 		OnRegister: service.Register,
-	}); err != nil {
+	}
+)
+
+func main() {
+	if err := drudge.Run(context.Background(), options); err != nil {
 		log.Fatalf("Fell out of serving application: %+v", err)
 	}
 }
