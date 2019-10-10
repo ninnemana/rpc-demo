@@ -8,4 +8,4 @@ scrape_configs:
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
-      - targets: ['demo:9091']
+      - targets: ['demo:8080']
