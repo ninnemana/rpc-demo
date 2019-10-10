@@ -6,7 +6,7 @@ require (
 	github.com/fiorix/protoc-gen-cobra v0.0.0-20181029091941-dffa0bfa45cc
 	github.com/golang/protobuf v1.3.2
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/ninnemana/drudge v0.0.0-20191010151212-f9e46a20abdc
+	github.com/ninnemana/drudge v0.0.0-20191010154235-d2ed7773c72d
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.8.1
 	github.com/spf13/cobra v0.0.5

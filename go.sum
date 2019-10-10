@@ -123,6 +123,10 @@ github.com/ninnemana/drudge v0.0.0-20191010054911-b446705fb1d8 h1:1YfB8j8XcbzcgN
 github.com/ninnemana/drudge v0.0.0-20191010054911-b446705fb1d8/go.mod h1:TlsuCbLr4rOJuNkme161X5WZXSk54GDEN0bBAAxCNqQ=
 github.com/ninnemana/drudge v0.0.0-20191010151212-f9e46a20abdc h1:t7E0rxgItx3pQZ5QPoMRisQVtsM2GqGLrwvk/cxyVFc=
 github.com/ninnemana/drudge v0.0.0-20191010151212-f9e46a20abdc/go.mod h1:sdeDQcha75mHxLgWyWPA298pyw4ctaz2Vgr1t3bOzqg=
+github.com/ninnemana/drudge v0.0.0-20191010152504-0e37f153a43d h1:t1U0YK6bUZ3ebU2mjI5XKby+6Cxe8TyTOJULibuL7FY=
+github.com/ninnemana/drudge v0.0.0-20191010152504-0e37f153a43d/go.mod h1:sdeDQcha75mHxLgWyWPA298pyw4ctaz2Vgr1t3bOzqg=
+github.com/ninnemana/drudge v0.0.0-20191010154235-d2ed7773c72d h1:6KFlJlRidfKxtK8YCbcOHHcF5TcjW8eC3n8M3nbsOEc=
+github.com/ninnemana/drudge v0.0.0-20191010154235-d2ed7773c72d/go.mod h1:sdeDQcha75mHxLgWyWPA298pyw4ctaz2Vgr1t3bOzqg=
 github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn4U=
 github.com/opentracing/opentracing-go v1.1.0 h1:pWlfV3Bxv7k65HYwkikxat0+s3pV4bsqf19k25Ur8rU=
 github.com/opentracing/opentracing-go v1.1.0/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=
