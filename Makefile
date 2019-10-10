@@ -35,6 +35,7 @@ $(PROTOTOOL):
 
 generate: $(PROTOTOOL)
 	@GO111MODULE=off go get github.com/golang/protobuf/...
+	@GO111MODULE=off go get github.com/grpc-ecosystem/grpc-gateway/...
 	@prototool lint
 	@prototool generate
 	@rm -r .tmp
