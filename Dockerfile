@@ -16,7 +16,7 @@ RUN cp /protoc/bin/protoc /usr/local/bin/protoc
 WORKDIR /go/src/github.com/ninnemana/rpc-demo
 ADD . .
 RUN make generate
-RUN cd cmd/ && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o /api
+RUN cd cmd/ && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o /api ./cmd/api
 
 FROM alpine
 RUN apk --no-cache add ca-certificates
