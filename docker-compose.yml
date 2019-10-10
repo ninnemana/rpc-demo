@@ -7,18 +7,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8081:8081
-      - 9090:9090
+      - 8080:8080
     depends_on:
       - prom
-      - jaeger-agent
+      - jaeger
 
   prom:
     image: quay.io/prometheus/prometheus:v2.0.0
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
-    ports:
-      - 9999:9090
 
   grafana:
     image: grafana/grafana
@@ -29,51 +27,8 @@ services:
     depends_on:
       - prom
 
-  jaeger-collector:
-    image: jaegertracing/jaeger-collector
-    command:
-      [
-        "--cassandra.keyspace=jaeger_v1_dc1",
-        "--cassandra.servers=cassandra",
-        "--collector.zipkin.http-port=9411",
-      ]
+  jaeger:
+    image: jaegertracing/all-in-one:latest
     ports:
-      - "14269"
-      - "14268:14268"
-      - "14267"
-      - "14250"
-      - "9411:9411"
-    restart: on-failure
-    depends_on:
-      - cassandra-schema
-
-  jaeger-query:
-    image: jaegertracing/jaeger-query
-    command:
-      ["--cassandra.keyspace=jaeger_v1_dc1", "--cassandra.servers=cassandra"]
-    ports:
-      - "16686:16686"
-      - "16687"
-    restart: on-failure
-    depends_on:
-      - cassandra-schema
-
-  jaeger-agent:
-    image: jaegertracing/jaeger-agent
-    command: ["--reporter.grpc.host-port=jaeger-collector:14250"]
-    ports:
-      - "5775:5775/udp"
       - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-    restart: on-failure
-    depends_on:
-      - jaeger-collector
-
-  cassandra:
-    image: cassandra:3.9
-
-  cassandra-schema:
-    image: jaegertracing/jaeger-cassandra-schema
-    depends_on:
-      - cassandra
+      - "16686:16686"
