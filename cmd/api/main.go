@@ -7,9 +7,10 @@ import (
 
 	"github.com/ninnemana/drudge"
 	"github.com/ninnemana/drudge/telemetry"
-	"github.com/ninnemana/rpc-demo/pkg/vinyltappb"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+
+	"github.com/ninnemana/rpc-demo/pkg/vinyltappb"
 )
 
 const (
