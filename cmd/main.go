@@ -7,9 +7,11 @@ import (
 	"time"
 
 	"github.com/ninnemana/drudge"
-	"github.com/ninnemana/rpc-demo/pkg/vinyltap"
+	"github.com/ninnemana/drudge/telemetry"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+
+	"github.com/ninnemana/rpc-demo/pkg/vinyltap"
 )
 
 const (
@@ -29,7 +31,11 @@ var (
 			Network: "tcp",
 			Addr:    rpcAddr,
 		},
-		OnRegister: service.Register,
+		OnRegister:    Register,
+		TraceExporter: telemetry.Jaeger,
+		TraceConfig: telemetry.JaegerConfig{
+			ServiceName: "rpc-demo",
+		},
 	}
 )
 
