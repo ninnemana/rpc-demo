@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"github.com/ninnemana/drudge"
+	"github.com/ninnemana/drudge/telemetry"
+
 	"github.com/ninnemana/rpc-demo/pkg/service"
 )
 
@@ -22,6 +24,10 @@ var (
 			Addr:    rpcAddr,
 		},
 		OnRegister: service.Register,
+		TraceExporter: telemetry.Jaeger,
+		TraceConfig: telemetry.JaegerConfig{
+			ServiceName: "rpc-demo",
+		},
 	}
 )
 
