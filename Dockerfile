@@ -1,4 +1,3 @@
-
 FROM golang:1.12 AS builder
 
 ENV GO111MODULE=off
