@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"sync"
-	"time"
 
 	"github.com/ninnemana/drudge"
 	"github.com/ninnemana/drudge/telemetry"
@@ -76,8 +75,4 @@ func (s *Service) Set(ctx context.Context, a *vinyltap.Album) (*vinyltap.Album, 
 	s.Unlock()
 
 	return s.albums[a.GetId()], nil
-}
-
-func sinceInMilliseconds(startTime time.Time) float64 {
-	return float64(time.Since(startTime).Nanoseconds()) / 1e6
 }
