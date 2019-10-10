@@ -15,10 +15,6 @@ const (
 
 var (
 	options = drudge.Options{
-		Metrics: &drudge.Metrics{
-			Prefix:      "tap",
-			PullAddress: ":9090",
-		},
 		BasePath: "/",
 		Addr:     tcpAddr,
 		RPC: drudge.Endpoint{
