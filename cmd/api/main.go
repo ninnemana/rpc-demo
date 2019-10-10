@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ninnemana/rpc-demo/pkg/vinyltappb"
+	"github.com/ninnemana/rpc-demo/pkg/vinyltap"
 )
 
 func main() {
-	a := vinyltappb.Album{
+	a := vinyltap.Album{
 		Id:          1,
 		Artist:      "Nirvana",
 		Title:       "Nevermind",
