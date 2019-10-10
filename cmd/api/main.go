@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"sync"
-	"time"
 
 	"github.com/ninnemana/drudge"
 	"github.com/ninnemana/drudge/telemetry"
@@ -46,7 +45,9 @@ type Service struct {
 }
 
 func Register(server *grpc.Server) error {
-	vinyltappb.RegisterTapServer(server, &Service{})
+	vinyltap.RegisterTapServer(server, &Service{
+		albums: map[int32]*vinyltap.Album{},
+	})
 	return nil
 }
 
@@ -73,8 +74,4 @@ func (s *Service) Set(ctx context.Context, a *vinyltappb.Album) (*vinyltappb.Alb
 	s.Unlock()
 
 	return s.albums[a.GetId()], nil
-}
-
-func sinceInMilliseconds(startTime time.Time) float64 {
-	return float64(time.Since(startTime).Nanoseconds()) / 1e6
 }
