@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 
-	"github.com/ninnemana/rpc-demo/pkg/vinyltappb"
+	"github.com/ninnemana/rpc-demo/pkg/vinyltap"
 )
 
 const (
@@ -41,18 +41,18 @@ func main() {
 }
 
 type Service struct {
-	albums map[int32]*vinyltappb.Album
+	albums map[int32]*vinyltap.Album
 	sync.RWMutex
 }
 
 func Register(server *grpc.Server) error {
-	vinyltappb.RegisterTapServer(server, &Service{
-		albums: map[int32]*vinyltappb.Album{},
+	vinyltap.RegisterTapServer(server, &Service{
+		albums: map[int32]*vinyltap.Album{},
 	})
 	return nil
 }
 
-func (s *Service) GetAlbum(a *vinyltappb.Album, srv vinyltappb.Tap_GetAlbumServer) error {
+func (s *Service) GetAlbum(a *vinyltap.Album, srv vinyltap.Tap_GetAlbumServer) error {
 	for k := range s.albums {
 		if k != a.GetId() {
 			continue
@@ -66,7 +66,7 @@ func (s *Service) GetAlbum(a *vinyltappb.Album, srv vinyltappb.Tap_GetAlbumServe
 	return nil
 }
 
-func (s *Service) Set(ctx context.Context, a *vinyltappb.Album) (*vinyltappb.Album, error) {
+func (s *Service) Set(ctx context.Context, a *vinyltap.Album) (*vinyltap.Album, error) {
 	if _, ok := s.albums[a.GetId()]; ok {
 		return nil, errors.Errorf("provided album '%d' exists", a.GetId())
 	}

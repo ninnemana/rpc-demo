@@ -15,4 +15,4 @@ generate:
     - name: go
       type: go
       flags: plugins=grpc
-      output: pkg/vinyltappb
+      output: pkg/vinyltap
