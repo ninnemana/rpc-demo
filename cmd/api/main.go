@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/ninnemana/drudge"
-	"github.com/ninnemana/drudge/telemetry"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 
@@ -27,8 +26,8 @@ var (
 			Addr:    rpcAddr,
 		},
 		OnRegister:    Register,
-		TraceExporter: telemetry.Jaeger,
-		TraceConfig: telemetry.JaegerConfig{
+		TraceExporter: drudge.Jaeger,
+		TraceConfig: drudge.JaegerConfig{
 			ServiceName: "rpc-demo",
 		},
 	}
