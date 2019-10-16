@@ -8,8 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -195,17 +193,6 @@ func (c *tapClient) Set(ctx context.Context, in *Album, opts ...grpc.CallOption)
 type TapServer interface {
 	GetAlbum(*Album, Tap_GetAlbumServer) error
 	Set(context.Context, *Album) (*Album, error)
-}
-
-// UnimplementedTapServer can be embedded to have forward compatible implementations.
-type UnimplementedTapServer struct {
-}
-
-func (*UnimplementedTapServer) GetAlbum(req *Album, srv Tap_GetAlbumServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetAlbum not implemented")
-}
-func (*UnimplementedTapServer) Set(ctx context.Context, req *Album) (*Album, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Set not implemented")
 }
 
 func RegisterTapServer(s *grpc.Server, srv TapServer) {
