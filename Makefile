@@ -34,14 +34,14 @@ $(PROTOTOOL):
 .PHONY: proto
 
 generate: $(PROTOTOOL)
-	@GO111MODULE=off go get github.com/golang/protobuf/...
-	@GO111MODULE=off go get github.com/grpc-ecosystem/grpc-gateway/...
-	@GO111MODULE=off go get github.com/fiorix/protoc-gen-cobra/...
+	@go get github.com/golang/protobuf@v1.3.2
+	@go get github.com/grpc-ecosystem/grpc-gateway@v1.11.3
+	@go get github.com/fiorix/protoc-gen-cobra@v0.0.0-20181029091941-dffa0bfa45cc
 	@prototool lint
 	@prototool generate
 	@rm -r .tmp
 
-# do not include `generate` in the docker command, as the Dockerfile 
+# do not include `generate` in the docker command, as the Dockerfile
 # runs code generation on build.
 docker:
 	@docker build --rm -t rpc-demo .
