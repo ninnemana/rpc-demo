@@ -1,16 +1,13 @@
 protoc:
   version: 3.7.1
   includes:
-  - ../../grpc-ecosystem/grpc-gateway
-  - ../../grpc-ecosystem/grpc-gateway/third_party/googleapis
-  - ../../golang/protobuf
+  - ../../../../pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3
+  - ../../../../pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3/third_party/googleapis
 lint:
   group: google
 generate:
   go_options:
-    import_path: github.com/ninnemana/rpc-demo
-    extra_modifiers:
-      google/api/annotations.proto: google.golang.org/genproto/googleapis/api/annotations
+    import_path: .
   plugins:
     - name: go
       type: go
