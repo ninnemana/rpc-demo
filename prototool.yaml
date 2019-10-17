@@ -4,7 +4,7 @@ lint:
   group: google
 generate:
   go_options:
-    import_path: github.com/ninnemana/rpc-demo
+    import_path: .
   plugins:
     - name: go
       type: go
