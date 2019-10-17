@@ -34,7 +34,6 @@ $(PROTOTOOL):
 .PHONY: proto
 
 generate: $(PROTOTOOL)
-	@go get github.com/golang/protobuf@v1.3.2
 	@go get github.com/grpc-ecosystem/grpc-gateway@v1.11.3
 	@prototool lint
 	@prototool generate
