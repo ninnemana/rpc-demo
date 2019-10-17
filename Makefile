@@ -34,7 +34,6 @@ $(PROTOTOOL):
 .PHONY: proto
 
 generate: $(PROTOTOOL)
-	@GO111MODULE=off go get github.com/golang/protobuf/...
 	@prototool lint
 	@prototool generate
 	@rm -r .tmp
