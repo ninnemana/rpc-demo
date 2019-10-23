@@ -9,6 +9,9 @@ generate:
   go_options:
     import_path: .
   plugins:
+    - name: grpc-gateway
+      type: go
+      output: pkg/vinyltap
     - name: go
       type: go
       flags: plugins=grpc
