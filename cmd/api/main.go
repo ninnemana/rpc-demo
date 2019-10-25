@@ -7,6 +7,7 @@ import (
 
 	"github.com/ninnemana/drudge"
 	"github.com/pkg/errors"
+	"github.com/uber/jaeger-client-go/config"
 	"google.golang.org/grpc"
 
 	"github.com/ninnemana/rpc-demo/pkg/vinyltap"
@@ -27,13 +28,18 @@ var (
 		},
 		OnRegister:    Register,
 		TraceExporter: drudge.Jaeger,
-		TraceConfig: drudge.JaegerConfig{
-			ServiceName: "rpc-demo",
-		},
 	}
 )
 
 func main() {
+	cfg, err := config.FromEnv()
+	if err != nil {
+		log.Fatalf("Failed to read tracing config: %v", err)
+	}
+
+	cfg.ServiceName = "rpc-demo"
+	options.TraceConfig = cfg
+
 	if err := drudge.Run(context.Background(), options); err != nil {
 		log.Fatalf("Fell out of serving application: %+v", err)
 	}
@@ -48,6 +54,7 @@ func Register(server *grpc.Server) error {
 	vinyltap.RegisterTapServer(server, &Service{
 		albums: map[int32]*vinyltap.Album{},
 	})
+
 	return nil
 }
 
@@ -69,6 +76,7 @@ func (s *Service) Set(ctx context.Context, a *vinyltap.Album) (*vinyltap.Album, 
 	if _, ok := s.albums[a.GetId()]; ok {
 		return nil, errors.Errorf("provided album '%d' exists", a.GetId())
 	}
+
 	s.Lock()
 	s.albums[a.GetId()] = a
 	s.Unlock()
