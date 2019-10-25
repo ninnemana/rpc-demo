@@ -40,19 +40,21 @@ generate: $(PROTOTOOL)
 	@go get github.com/fiorix/protoc-gen-cobra@v0.0.0-20181029091941-dffa0bfa45cc
 	@prototool lint
 	@prototool generate
-	@$(if $(shell PATH=$(PATH) which $(redoc-cli)),$(npm install -g redoc-cli))
+	@rm -r .tmp
+
+doc:
+	@npm install -g redoc-cli
 	@redoc-cli bundle \
 		./openapi/vinyltap.swagger.json \
 		-o="./openapi/index.html" \
 		--title "Vinyl Tap API"
-	@rm -r .tmp
 
 # do not include `generate` in the docker command, as the Dockerfile
 # runs code generation on build.
 docker:
 	@docker build --rm -t rpc-demo .
 
-start: generate
+start: generate doc
 	@go run ./cmd/api/main.go
 
 help:
