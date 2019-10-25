@@ -30,9 +30,6 @@ var (
 		Handlers:      []drudge.Handler{vinyltap.RegisterTapHandler},
 		OnRegister:    Register,
 		TraceExporter: drudge.Jaeger,
-		TraceConfig: drudge.JaegerConfig{
-			ServiceName: "rpc-demo",
-		},
 	}
 )
 
@@ -59,6 +56,7 @@ func Register(server *grpc.Server) error {
 	vinyltap.RegisterTapServer(server, &Service{
 		albums: map[int32]*vinyltap.Album{},
 	})
+
 	return nil
 }
 
@@ -80,6 +78,7 @@ func (s *Service) Set(ctx context.Context, a *vinyltap.Album) (*vinyltap.Album, 
 	if _, ok := s.albums[a.GetId()]; ok {
 		return nil, errors.Errorf("provided album '%d' exists", a.GetId())
 	}
+
 	s.Lock()
 	s.albums[a.GetId()] = a
 	s.Unlock()
