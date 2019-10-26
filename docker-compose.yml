@@ -8,6 +8,10 @@ services:
     environment:
       - JAEGER_AGENT_HOST=jaeger
       - JAEGER_AGENT_PORT=6831
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
+      - GCP_PROJECT_ID=cvcc12
+      - GCP_SVC_ACCOUNT=${GCP_SVC_ACCOUNT}
     ports:
       - 8081:8081
       - 8080:8080
