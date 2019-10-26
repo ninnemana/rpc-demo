@@ -14,8 +14,6 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/ninnemana/drudge v0.1.1
-	github.com/opentracing-contrib/go-stdlib v0.0.0-20190519235532-cf7a6c988dc9 // indirect
-	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/pelletier/go-toml v1.5.0 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.2.1 // indirect
