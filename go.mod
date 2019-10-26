@@ -6,7 +6,7 @@ require (
 	github.com/fiorix/protoc-gen-cobra v0.0.0-20181029091941-dffa0bfa45cc
 	github.com/golang/protobuf v1.3.2
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/ninnemana/drudge v0.1.0
+	github.com/ninnemana/drudge v0.1.1
 	github.com/pkg/errors v0.8.1
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/pflag v1.0.5
