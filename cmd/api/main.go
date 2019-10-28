@@ -26,6 +26,7 @@ var (
 			Network: "tcp",
 			Addr:    rpcAddr,
 		},
+		SwaggerDir:    "openapi",
 		Handlers:      []drudge.Handler{vinyltap.RegisterTapHandler},
 		OnRegister:    Register,
 		TraceExporter: drudge.Jaeger,

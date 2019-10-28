@@ -36,17 +36,25 @@ $(PROTOTOOL):
 generate: $(PROTOTOOL)
 	@go get github.com/grpc-ecosystem/grpc-gateway@v1.11.3
 	@go install ${GOPATH}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3/protoc-gen-grpc-gateway
+	@go install ${GOPATH}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3/protoc-gen-swagger
 	@go get github.com/fiorix/protoc-gen-cobra@v0.0.0-20181029091941-dffa0bfa45cc
 	@prototool lint
 	@prototool generate
 	@rm -r .tmp
+
+doc:
+	@npm install -g redoc-cli
+	@redoc-cli bundle \
+		./openapi/vinyltap.swagger.json \
+		-o="./openapi/index.html" \
+		--title "Vinyl Tap API"
 
 # do not include `generate` in the docker command, as the Dockerfile
 # runs code generation on build.
 docker:
 	@docker build --rm -t rpc-demo .
 
-start: generate
+start: generate doc
 	@go run ./cmd/api/main.go
 
 help:
