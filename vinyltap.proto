@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package vinyltap;
+
+message Album {
+  int32 id = 1;
+  string artist = 2;
+  string title = 3;
+  int64 release_date = 4;
+  repeated string songs = 5;
+  bool tombstoned = 6;
+}

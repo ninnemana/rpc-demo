@@ -1,0 +1,11 @@
+protoc:
+  version: 3.7.1
+lint:
+  group: google
+generate:
+  go_options:
+    import_path: .
+  plugins:
+    - name: go
+      type: go
+      output: pkg/vinyltap
