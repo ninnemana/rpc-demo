@@ -1,5 +1,8 @@
 protoc:
   version: 3.7.1
+  includes:
+  - ../../../../pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3
+  - ../../../../pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.11.3/third_party/googleapis
 lint:
   group: google
 generate:
@@ -8,4 +11,5 @@ generate:
   plugins:
     - name: go
       type: go
+      flags: plugins=grpc
       output: pkg/vinyltap
