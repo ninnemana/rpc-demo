@@ -2,16 +2,103 @@ syntax = "proto3";
 
 package vinyltap;
 
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Vinyltap";
+		version: "1.0";
+		contact: {
+			name: "Alex Ninneman";
+			url: "https://www.ninneman.org";
+			email: "alex@ninneman.org";
+		};
+		license: {
+			name: "BSD 3-Clause License";
+			url: "https://github.com/ninnemana/rpc-demo/blob/master/LICENSE.txt";
+		};
+	};
+	// Overwriting host entry breaks tests, so this is not done here.
+	external_docs: {
+		url: "https://github.com/ninnemana/rpc-demo";
+		description: "Vinyltap Demo RPC Service";
+	}
+	schemes: HTTP;
+	schemes: HTTPS;
+	schemes: WSS;
+	consumes: "application/json";
+	produces: "application/json";
+	responses: {
+		key: "500";
+		value: {
+			description: "Returned when the server fails to write to the response";
+		}
+	}
+	responses: {
+		key: "404";
+		value: {
+			description: "Returned when the resource does not exist.";
+		}
+	}
+	responses: {
+		key: "409";
+		value: {
+			description: "Returned when the a record is sent to the PUT operation twice";
+		}
+	}
+	responses: {
+		key: "200";
+		value: {
+			description: "Returned when the a record is successfully sent back";
+			schema: {
+				json_schema: {
+					ref: ".Album";
+				}
+			}
+		}
+	}
+};
+
 message Album {
-  int32 id = 1;
-  string artist = 2;
-  string title = 3;
-  int64 release_date = 4;
-  repeated string songs = 5;
-  bool tombstoned = 6;
+  int32 id = 1 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "ID",
+	description: "Album Identifier.",
+	read_only: true
+  }];
+  string artist = 2 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "Artist",
+	description: "Recording Artist."
+  }];
+  string title = 3 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "Title",
+	description: "Title of Album."
+  }];
+  int64 release_date = 4 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "Release Date"
+	description: "Unix Timestamp of the Album's release date."
+  }];
+  repeated string songs = 5 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "Track List",
+	description: "Track list.",
+	unique_items: true
+  }];
+  bool tombstoned = 6 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+	title: "Tombstoned",
+	description: "Deleted?."
+  }];
 }
 
 service Tap {
-  rpc GetAlbum(Album) returns (stream Album);
-  rpc Set(Album) returns (Album);
+  rpc GetAlbum(Album) returns (stream Album) {
+    option (google.api.http) = {
+      get: "/v1/tap"
+    };
+  }
+  rpc Set(Album) returns (Album) {
+    option (google.api.http) = {
+	  put: "/v1/tap",
+	  body: "*"
+    };
+  }
 }
