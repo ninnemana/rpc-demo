@@ -10,3 +10,8 @@ message Album {
   repeated string songs = 5;
   bool tombstoned = 6;
 }
+
+service Tap {
+  rpc GetAlbum(Album) returns (stream Album);
+  rpc Set(Album) returns (Album);
+}

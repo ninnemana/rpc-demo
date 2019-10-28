@@ -34,11 +34,13 @@ $(PROTOTOOL):
 .PHONY: proto
 
 generate: $(PROTOTOOL)
+	@go get github.com/grpc-ecosystem/grpc-gateway@v1.11.3
+	@go get github.com/fiorix/protoc-gen-cobra@v0.0.0-20181029091941-dffa0bfa45cc
 	@prototool lint
 	@prototool generate
 	@rm -r .tmp
 
-# do not include `generate` in the docker command, as the Dockerfile 
+# do not include `generate` in the docker command, as the Dockerfile
 # runs code generation on build.
 docker:
 	@docker build --rm -t rpc-demo .
